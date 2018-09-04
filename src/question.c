@@ -11,8 +11,8 @@ checkArgs(argc,argv);
 srand(atoi(argv[3]));
 printf("Press ENTER to start with the question...\n");
 int question = rand() % atoi(argv[2]) + 1;
-char ch=0x0A;
-
+char ch;
+ch = fgetc(stdin);
 while(ch==0x0A){
 	char str [MAXCHAR];
 	int i=0;
