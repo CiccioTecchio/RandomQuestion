@@ -4,6 +4,8 @@ Che cos'è uno schedule e a cosa serve?
 Cos'è un lock?
 Parlami dei lock shared/exclusive
 Che cos'è il protocollo 2PL
+Come prevenire una situazione di deadlock?
+Parlami dei timestamp
 Parlami delle tecniche di recovery
 Cos'è il procotollo WAL
 Perchè c'è bisongno di basi di dati distribuite?
@@ -12,6 +14,7 @@ Che tipi di frammentazione esistono e che differenza c'è fra loro?
 Fammi un esempio di frammentazione verticale e uno di frammentazione orizzontale
 Parlami delle architetture Client/Server
 A cosa servono i DW?
+A cosa servono gli strumenti ETL?
 Quali tipi di architetture esistono per i DW?
 Come vengono strutturati i dati nel DW?
 Che cos'è OLAP?

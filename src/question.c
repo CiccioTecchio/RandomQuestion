@@ -1,16 +1,19 @@
 #include<stdio.h>
 #include<stdlib.h>
+#include<time.h>
 
 #define MAXCHAR 1000
 FILE *fp;
 
 void checkArgs(int argc, char* argv[]);
+int lineCounter();
 
 int main(int argc, char* argv[]){
 checkArgs(argc,argv);
-srand(atoi(argv[3]));
+srand(time(NULL));
+int line = lineCounter();
 printf("Press ENTER to start with the question...\n");
-int question = rand() % atoi(argv[2]) + 1;
+int question = rand() % line + 1;
 char ch;
 ch = fgetc(stdin);
 while(ch==0x0A){
@@ -22,7 +25,7 @@ while(ch==0x0A){
 	}
 printf("> %s",str);
 fseek(fp, 0, SEEK_SET);
-question = rand() % atoi(argv[2]) + 1;
+question = rand() % line + 1;
 ch = fgetc(stdin);
 }
 printf("Terminated\n");
@@ -32,14 +35,21 @@ return 0;
 }
 
 void checkArgs(int argc, char* argv[]){
-	if(argc!=4){
-		printf("Enter <name of file whit question> <number of line> <seed number>\n");
+	if(argc!=2){
+		printf("Enter <name of file whit question>\n");
 		exit(0);
 	}else{
 			fp = fopen(argv[1],"r");
-			if(!fp || atoi(argv[2]) <= 0){
-			printf("Make sure that the file exists or the number of line is positive\n");
-			exit(0);
-			}
 	}
+}
+
+int lineCounter(){
+	int count = 0;
+	char ch = fgetc(fp);
+	while(ch != EOF){
+		if(ch == '\n') count++;
+		ch = fgetc(fp);
+	}
+	fseek(fp, 0, SEEK_SET);
+	return count;
 }
