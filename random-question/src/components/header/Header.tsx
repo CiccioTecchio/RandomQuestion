@@ -1,9 +1,10 @@
-import "./Header.scss";
+import React from 'react';
+import './Header.scss';
 import { useTranslation } from 'react-i18next';
-import { Col, Row } from "react-bootstrap";
-import { LANG_IT, LANG_EN } from "../../Constant";
+import { Col, Row } from 'react-bootstrap';
+import { LANG_IT, LANG_EN } from '../../Constant';
 
-export default function Header(){
+export default function Header() {
   const { t, i18n } = useTranslation();
   return (
     <Row className="header">
@@ -21,5 +22,5 @@ export default function Header(){
         </h2>
       </Col>
     </Row>
-  )
+  );
 }
