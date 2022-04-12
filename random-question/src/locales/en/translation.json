@@ -2,5 +2,7 @@
   "title": "RandomQuestion",
   "explain": "EN L'idea di questo sito è quella di permettere all'utente di caricare un file JSON contenente una lista di domande (con le relative risposte), impostare un timer e poi far partire una simulazione d'esame.",
   "upload.json": "Upload JSON",
-  "set.timer": "Set timer"
+  "set.timer": "Set timer",
+  "label.passing.score": "Set passing score",
+  "placeholder.passing.score": "Passing score"
 }
