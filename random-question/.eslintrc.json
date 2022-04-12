@@ -23,6 +23,6 @@
         "require-jsdoc": "off",
         "object-curly-spacing":"off",
         "max-len": "off",
-        "no-use-before-define": "error"
+        "comma-dangle":"off"
     }
 }
