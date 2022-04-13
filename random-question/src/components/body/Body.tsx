@@ -16,8 +16,14 @@ enum StatusValidation {
   Empty = ''
 }
 
-function uploadBtn():ReactElement {
-  const [t] = useTranslation();
+interface ICanStart {
+  isValidUpload: boolean;
+  isValidPassingScore?: boolean;
+  isValidTimer?: boolean;
+}
+
+function UploadBtn():ReactElement {
+  const {t} = useTranslation();
   return (
     <Button>
       <Row>
@@ -32,8 +38,8 @@ function uploadBtn():ReactElement {
   );
 }
 
-function setTimerBtn():ReactElement {
-  const [t] = useTranslation();
+function SetTimerBtn():ReactElement {
+  const {t} = useTranslation();
   return (
     <Button>{t('set.timer')}</Button>
   );
@@ -41,27 +47,27 @@ function setTimerBtn():ReactElement {
 
 function validateInputTimer(value:string):StatusValidation {
   let classToAppend: StatusValidation = StatusValidation.Empty;
-  const regExp = new RegExp(/^[1-9]\d{0,1}$/);
+  const regExp = new RegExp(/^[1-9]\d{0,2}$/);
+
   if (value === '') classToAppend = StatusValidation.Empty;
-  else {
-    if (regExp.test(value)) classToAppend = StatusValidation.Valid;
-    else classToAppend = StatusValidation.Invalid;
-  }
+  else classToAppend = (regExp.test(value) && parseInt(value) <= 100)?StatusValidation.Valid:StatusValidation.Invalid;
+
   return classToAppend;
 }
 
-function passingScoreInput():ReactElement {
+function PassingScoreInput():ReactElement {
   const [passingScore, setPassingScore] = useState('');
-  const [t] = useTranslation();
+  const {t} = useTranslation();
+
   return (
     <Form>
       <Form.Group controlId='passingScoreControl'>
         <InputGroup>
           <input className={`form-control ${validateInputTimer(passingScore)}`} type={'text'} inputMode='decimal'
-            placeholder={t('label.passing.score')} min={1} max={999} pattern="^[1-9]\d{0,1}$" onInput={(event)=>{
+            placeholder={t('label.passing.score')} min={1} max={100} pattern="^[1-9]\d{0,2}$" onInput={(event)=>{
               event.currentTarget.value = event.currentTarget.value.replace(/\D/, '');
               setPassingScore(event.currentTarget.value);
-            } } />
+            } }/>
           <InputGroup.Text>%</InputGroup.Text>
         </InputGroup>
       </Form.Group>
@@ -69,17 +75,25 @@ function passingScoreInput():ReactElement {
   );
 }
 
-function uploadBtnPassingScoreAndTimer():ReactElement {
+function UploadBtnPassingScoreAndTimer():ReactElement {
   return (
     <Row className="mt-5 text-center">
-      <Col> {uploadBtn()} </Col>
-      <Col> {passingScoreInput()} </Col>
-      <Col> {setTimerBtn()} </Col>
+      <Col> <UploadBtn /> </Col>
+      <Col> <PassingScoreInput /> </Col>
+      <Col> <SetTimerBtn /> </Col>
     </Row>
   );
 }
 
-export default function Body() {
+function ButtonStart(props:{iCanStart: ICanStart}):ReactElement {
+  return (
+    <Button className='play-btn' size='lg' disabled={(props.iCanStart.isValidUpload)? false: true}>
+      <FontAwesomeIcon icon={faPlay as IconProp}/>
+    </Button>
+  );
+}
+
+export default function Body():ReactElement {
   const {t} = useTranslation();
   return (
     <Container>
@@ -89,11 +103,9 @@ export default function Body() {
       <Row className="mt-3 text-center">
         <h3>{t('explain')}</h3>
       </Row>
-      {uploadBtnPassingScoreAndTimer()}
+      <UploadBtnPassingScoreAndTimer />
       <div className='mt-5 text-center'>
-        <Button className='play-btn' size='lg' disabled>
-          <FontAwesomeIcon icon={faPlay as IconProp}/>
-        </Button>
+        <ButtonStart iCanStart={{isValidUpload: false}}/>
       </div>
     </Container>
   );
