@@ -2,7 +2,7 @@ import React, { ReactElement, useRef, useState } from 'react';
 import {IconProp} from '@fortawesome/fontawesome-svg-core';
 import {faFileArrowUp, faPlay} from '@fortawesome/free-solid-svg-icons';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
-import {Container, Row, Col, Button, InputGroup, Form, Alert, Modal} from 'react-bootstrap';
+import {Container, Row, Col, Button, Form, Alert, Modal, InputGroup} from 'react-bootstrap';
 import {useTranslation} from 'react-i18next';
 import './Body.scss';
 
@@ -107,7 +107,7 @@ function SetTimerBtn():ReactElement {
   );
 }
 
-function validateInputTimer(value:string):StatusValidation {
+function validatePassingScore(value:string):StatusValidation {
   let classToAppend: StatusValidation = StatusValidation.Empty;
   const regExp = new RegExp(/^[1-9]\d{0,2}$/);
 
@@ -122,25 +122,27 @@ function PassingScoreInput():ReactElement {
   const {t} = useTranslation();
 
   return (
-    <Form>
-      <Form.Group controlId='passingScoreControl'>
-        <InputGroup>
-          <input className={`form-control ${validateInputTimer(passingScore)}`} type={'text'} inputMode='decimal'
-            placeholder={t('label.passing.score')} min={1} max={100} pattern="^[1-9]\d{0,2}$" onInput={(event)=>{
-              event.currentTarget.value = event.currentTarget.value.replace(/\D/, '');
-              setPassingScore(event.currentTarget.value);
-            } }/>
-          <InputGroup.Text>%</InputGroup.Text>
-        </InputGroup>
-      </Form.Group>
-    </Form>
+
+    <InputGroup className='mb-3'>
+      <Form.Floating className="form-floating-group flex-grow-1">
+        <Form.Control id="passing_score" className={`form-control ${validatePassingScore(passingScore)}`} placeholder={t('label.passing.score')} type='text' min={1} max={100} pattern="^[1-9]\d{0,2}$"
+          onInput={(event)=>{
+            event.currentTarget.value = event.currentTarget.value.replace(/\D/, '');
+            setPassingScore(event.currentTarget.value);
+          } } />
+        <label htmlFor="passing_score">{t('label.passing.score')}</label>
+      </Form.Floating>
+      <InputGroup.Text>%</InputGroup.Text>
+    </InputGroup>
+
+
   );
 }
 
 function UploadBtnPassingScoreAndTimer():ReactElement {
   return (
     <Row className="mt-5 text-center">
-      <Col> <UploadBtn /> </Col>
+      <Col className='mt-2'> <UploadBtn /> </Col>
       <Col> <PassingScoreInput /> </Col>
       <Col> <SetTimerBtn /> </Col>
     </Row>
