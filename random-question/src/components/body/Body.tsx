@@ -6,7 +6,7 @@ import {Container, Row, Col, Button, Alert, Modal} from 'react-bootstrap';
 import {useTranslation} from 'react-i18next';
 import './Body.scss';
 import { IInputText } from './home-page/Interfaces';
-import GenericInputText from './home-page/components/GenericInput';
+import GenericInputText from './home-page/components/generic-input/GenericInput';
 
 interface ICanStart {
   isValidUpload: boolean;

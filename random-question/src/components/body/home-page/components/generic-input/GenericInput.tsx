@@ -1,6 +1,6 @@
 import React, { ReactElement, useState } from 'react';
 import { Form, InputGroup } from 'react-bootstrap';
-import { IInputText } from '../Interfaces';
+import { IInputText } from '../../Interfaces';
 import './GenericInput.scss';
 
 // eslint-disable-next-line no-unused-vars
