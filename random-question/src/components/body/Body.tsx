@@ -7,7 +7,7 @@ import {useTranslation} from 'react-i18next';
 import './Body.scss';
 import { IInputText } from './home-page/Interfaces';
 import GenericInputText from './home-page/components/generic-input/GenericInput';
-import UploadBtn from './home-page/upload-btn/UploadBtn';
+import UploadBtn from './home-page/components/upload-btn/UploadBtn';
 
 interface ICanStart {
   isValidUpload: boolean;
