@@ -5,6 +5,7 @@ import React, { ReactElement, useRef, useState } from 'react';
 import { Alert, Button, Modal } from 'react-bootstrap';
 import { useTranslation } from 'react-i18next';
 import { IUploadedFile } from '../Interfaces';
+import './UploadBtn';
 
 function ModalWrongFile(props:{showModal:boolean, onChangeShow:Function}):ReactElement {
   const {t} = useTranslation();
