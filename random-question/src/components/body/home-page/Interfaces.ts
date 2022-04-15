@@ -9,3 +9,9 @@ export interface IInputText{
     label: string;
   }
 };
+
+export interface IUploadedFile{
+  name: string;
+  contentFile: any;
+  showAlert: boolean;
+};
