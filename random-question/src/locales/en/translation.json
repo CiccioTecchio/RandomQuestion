@@ -4,7 +4,6 @@
   "upload.json": "Upload JSON",
   "set.timer": "Set timer",
   "label.passing.score": "Set passing score",
-  "placeholder.passing.score": "Passing score",
   "error.wrong.format": "Wrong file format",
   "error.wrong.format.desciption": "This file format isn't correct, to use the simulator attach a <i>JSON</i> that respects <a href='#' target='_blank'>this structure</a>."
 }
