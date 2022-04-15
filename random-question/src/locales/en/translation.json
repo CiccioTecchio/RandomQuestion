@@ -1,8 +1,10 @@
 {
   "title": "RandomQuestion",
-  "explain": "EN L'idea di questo sito è quella di permettere all'utente di caricare un file JSON contenente una lista di domande (con le relative risposte), impostare un timer e poi far partire una simulazione d'esame.",
+  "explain": "The idea of this site is to allow the user to upload a JSON file containing a list of questions (with their answers), set a timer and then run an exam simulation. Here is an <a href='#' target='_blank'>example</a> JSON",
   "upload.json": "Upload JSON",
   "set.timer": "Set timer",
   "label.passing.score": "Set passing score",
-  "placeholder.passing.score": "Passing score"
+  "placeholder.passing.score": "Passing score",
+  "error.wrong.format": "Wrong file format",
+  "error.wrong.format.desciption": "This file format isn't correct, to use the simulator attach a <i>JSON</i> that respects <a href='#' target='_blank'>this structure</a>"
 }
