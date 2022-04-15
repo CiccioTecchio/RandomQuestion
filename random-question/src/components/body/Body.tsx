@@ -2,19 +2,11 @@ import React, { ReactElement, useRef, useState } from 'react';
 import {IconProp} from '@fortawesome/fontawesome-svg-core';
 import {faFileArrowUp, faPlay} from '@fortawesome/free-solid-svg-icons';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
-import {Container, Row, Col, Button, Form, Alert, Modal, InputGroup} from 'react-bootstrap';
+import {Container, Row, Col, Button, Alert, Modal} from 'react-bootstrap';
 import {useTranslation} from 'react-i18next';
 import './Body.scss';
-
-// eslint-disable-next-line no-unused-vars
-enum StatusValidation {
-  // eslint-disable-next-line no-unused-vars
-  Valid = 'is-valid',
-  // eslint-disable-next-line no-unused-vars
-  Invalid = 'is-invalid',
-  // eslint-disable-next-line no-unused-vars
-  Empty = ''
-}
+import { IInputText } from './home-page/Interfaces';
+import GenericInputText from './home-page/components/GenericInput';
 
 interface ICanStart {
   isValidUpload: boolean;
@@ -26,18 +18,6 @@ interface IUploadedFile{
   name: string;
   contentFile: any;
   showAlert: boolean;
-}
-
-interface IInputText{
-  id: string;
-  patter: string;
-  regExp: RegExp;
-  min: number;
-  max: number;
-  lang: {
-    span: string;
-    label: string;
-  }
 }
 
 function ModalWrongFile(props:{showModal:boolean, onChangeShow:Function}):ReactElement {
@@ -110,35 +90,6 @@ function UploadBtn():ReactElement {
 
     </div>
   );
-}
-
-function GenericInputText(props:{config:IInputText}):ReactElement {
-  const [value, setValue] = useState<string>('');
-
-  return (
-    <InputGroup className='mb-3'>
-      <Form.Floating className='form-floating-group flex-grow-1'>
-        <Form.Control id={props.config.id} className={validateInputNumber(value, props.config.regExp, props.config.max)}
-          placeholder={props.config.lang.label} type='text' min={props.config.min} max={props.config.max} pattern={props.config.patter}
-          onInput = {(event) => {
-            event.currentTarget.value = event.currentTarget.value.replace(/\D/, '');
-            setValue(event.currentTarget.value);
-          }}
-        />
-        <label htmlFor={props.config.id}>{props.config.lang.label}</label>
-      </Form.Floating>
-      <InputGroup.Text>{props.config.lang.span}</InputGroup.Text>
-    </InputGroup>
-  );
-}
-
-function validateInputNumber(value:string, regExp:RegExp, max:number):StatusValidation {
-  let classToAppend: StatusValidation = StatusValidation.Empty;
-
-  if (value === '') classToAppend = StatusValidation.Empty;
-  else classToAppend = (regExp.test(value) && parseInt(value) <= max)?StatusValidation.Valid:StatusValidation.Invalid;
-
-  return classToAppend;
 }
 
 function UploadBtnPassingScoreAndTimer():ReactElement {
