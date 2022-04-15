@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import React, { ReactElement, useRef, useState } from 'react';
 import {IconProp} from '@fortawesome/fontawesome-svg-core';
 import {faFileArrowUp, faPlay} from '@fortawesome/free-solid-svg-icons';
@@ -26,6 +27,18 @@ interface IUploadedFile{
   name: string;
   contentFile: any;
   showAlert: boolean;
+}
+
+interface IInputText{
+  id: string;
+  patter: string;
+  regExp: RegExp;
+  min: number;
+  max: number;
+  lang: {
+    span: string;
+    label: string;
+  }
 }
 
 function ModalWrongFile(props:{showModal:boolean, onChangeShow:Function}):ReactElement {
@@ -100,51 +113,67 @@ function UploadBtn():ReactElement {
   );
 }
 
-function SetTimerBtn():ReactElement {
+function GenericInputText(props:{config:IInputText}):ReactElement {
+  const [value, setValue] = useState<string>('');
+
+  return (
+    <InputGroup className='mb-3'>
+      <Form.Floating className='form-floating-group flex-grow-1'>
+        <Form.Control id={props.config.id} className={validateInputNumber(value, props.config.regExp, props.config.max)}
+          placeholder={props.config.lang.label} type='text' min={props.config.min} max={props.config.max} pattern={props.config.patter}
+          onInput = {(event) => {
+            event.currentTarget.value = event.currentTarget.value.replace(/\D/, '');
+            setValue(event.currentTarget.value);
+          }}
+        />
+        <label htmlFor={props.config.id}>{props.config.lang.label}</label>
+      </Form.Floating>
+      <InputGroup.Text>{props.config.lang.span}</InputGroup.Text>
+    </InputGroup>
+  );
+}
+
+function TimerInput():ReactElement {
   const {t} = useTranslation();
   return (
     <Button>{t('set.timer')}</Button>
   );
 }
 
-function validatePassingScore(value:string):StatusValidation {
+function validateInputNumber(value:string, regExp:RegExp, max:number):StatusValidation {
   let classToAppend: StatusValidation = StatusValidation.Empty;
-  const regExp = new RegExp(/^[1-9]\d{0,2}$/);
 
   if (value === '') classToAppend = StatusValidation.Empty;
-  else classToAppend = (regExp.test(value) && parseInt(value) <= 100)?StatusValidation.Valid:StatusValidation.Invalid;
+  else classToAppend = (regExp.test(value) && parseInt(value) <= max)?StatusValidation.Valid:StatusValidation.Invalid;
 
   return classToAppend;
 }
 
-function PassingScoreInput():ReactElement {
-  const [passingScore, setPassingScore] = useState('');
-  const {t} = useTranslation();
-
-  return (
-
-    <InputGroup className='mb-3'>
-      <Form.Floating className="form-floating-group flex-grow-1">
-        <Form.Control id="passing_score" className={`form-control ${validatePassingScore(passingScore)}`} placeholder={t('label.passing.score')} type='text' min={1} max={100} pattern="^[1-9]\d{0,2}$"
-          onInput={(event)=>{
-            event.currentTarget.value = event.currentTarget.value.replace(/\D/, '');
-            setPassingScore(event.currentTarget.value);
-          } } />
-        <label htmlFor="passing_score">{t('label.passing.score')}</label>
-      </Form.Floating>
-      <InputGroup.Text>%</InputGroup.Text>
-    </InputGroup>
-
-
-  );
-}
-
 function UploadBtnPassingScoreAndTimer():ReactElement {
+  const [t] = useTranslation();
+  const passingScore:IInputText = {
+    id: 'passing-score',
+    max: 100,
+    min: 1,
+    lang: {label: t('label.passing.score'), span: '%'},
+    patter: '^[1-9]\d{0,2}$',
+    regExp: /^[1-9]\d{0,2}$/
+  };
+
+  const timer:IInputText = {
+    id: 'timer',
+    max: 180,
+    min: 1,
+    lang: {label: t('set.timer'), span: 'min'},
+    patter: '^[1-9]\d{0,2}$',
+    regExp: /^[1-9]\d{0,2}$/
+  };
+
   return (
     <Row className="mt-5 text-center">
       <Col className='mt-2'> <UploadBtn /> </Col>
-      <Col> <PassingScoreInput /> </Col>
-      <Col> <SetTimerBtn /> </Col>
+      <Col> <GenericInputText config={passingScore} /> </Col>
+      <Col> <GenericInputText config={timer}/> </Col>
     </Row>
   );
 }
