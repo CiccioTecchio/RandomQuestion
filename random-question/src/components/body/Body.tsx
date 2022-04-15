@@ -1,4 +1,3 @@
-/* eslint-disable no-unused-vars */
 import React, { ReactElement, useRef, useState } from 'react';
 import {IconProp} from '@fortawesome/fontawesome-svg-core';
 import {faFileArrowUp, faPlay} from '@fortawesome/free-solid-svg-icons';
@@ -130,13 +129,6 @@ function GenericInputText(props:{config:IInputText}):ReactElement {
       </Form.Floating>
       <InputGroup.Text>{props.config.lang.span}</InputGroup.Text>
     </InputGroup>
-  );
-}
-
-function TimerInput():ReactElement {
-  const {t} = useTranslation();
-  return (
-    <Button>{t('set.timer')}</Button>
   );
 }
 
