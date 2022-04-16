@@ -1,4 +1,3 @@
-/* eslint-disable no-unused-vars */
 import React, { ReactElement, useState } from 'react';
 import {Container} from 'react-bootstrap';
 import './Body.scss';
