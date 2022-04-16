@@ -4,6 +4,9 @@
   "upload.json": "Upload JSON",
   "set.timer": "Imposta timer",
   "label.passing.score": "Imposta il passing score",
-  "error.wrong.format": "Formato file errato",
-  "error.wrong.format.desciption": "Il formato del file non è corretto, per usare il simulatore allega un <i>JSON</i> che rispetti <a href='#' target='_blank'>questa stuttura</a>."
+  "error.wrong.format.title": "Problemi con l'allegato",
+  "error.wrong.type.format.desciption": "Tipo del file non è corretto, per usare il simulatore allega un <i>JSON</i> che rispetti <a href='#' target='_blank'>questa stuttura</a>.",
+  "error.wrong.syntax.json": "Hai allegato un <i>JSON</i> contenente errori di sintassi, per verificare e correggere questi errori puoi usare <a href='https://codebeautify.org/jsonviewer' target='_blank'>codebeautify.org</a>.",
+  "error.json.is.not.array": "Il <i>JSON</i> che hai allegato non contiene una <b>lista</b> di domande; allega un <i>JSON</i> che rispetti <a href='#' target='_blank'>questa stuttura</a>.",
+  "error.syntax.of.json.question": "C'è un problama di sintassi nell'elemento con indice <b>{{i}}</b>; il <i>JSON</i> deve rispettare <a href='#' target='_blank'>questa stuttura</a>."
 }
