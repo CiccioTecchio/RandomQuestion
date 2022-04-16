@@ -24,7 +24,7 @@ export default function HomePage(props:{startSimulation:Function, takeQuestions:
   };
 
   const handleStartSimulation = () => {
-    props.startSimulation(PageName.Simulation);
+    props.startSimulation(PageName.Simulator);
   };
 
   const [t] = useTranslation();

@@ -4,7 +4,7 @@ export enum PageName{
   // eslint-disable-next-line no-unused-vars
   Doc = 'documentation',
   // eslint-disable-next-line no-unused-vars
-  Simulation = 'simulation',
+  Simulator = 'simulator',
   // eslint-disable-next-line no-unused-vars
   PreSendSimulation = 'pre-send-simulation',
   // eslint-disable-next-line no-unused-vars

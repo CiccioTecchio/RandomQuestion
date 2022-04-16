@@ -4,7 +4,7 @@ import './Body.scss';
 import { PageName } from './Constants';
 import HomePage from './home-page/HomePage';
 import { IPageToShow, IQuestion } from './home-page/Interfaces';
-import Simulation from './simulation/Simulation';
+import Simulation from './simulator/Simulation';
 
 export default function Body():ReactElement {
   const [show, setShow] = useState<IPageToShow>({
@@ -21,7 +21,7 @@ export default function Body():ReactElement {
     setShow({
       showHome: (pageToShow == PageName.Home)?true: false,
       showDoc: (pageToShow == PageName.Doc)?true: false,
-      showSimulation: (pageToShow == PageName.Simulation)?true: false,
+      showSimulation: (pageToShow == PageName.Simulator)?true: false,
       showPreSendSimulation: (pageToShow == PageName.PreSendSimulation)?true: false,
       showResumeSimulation: (pageToShow == PageName.ResumeSimulation)?true: false
     });
