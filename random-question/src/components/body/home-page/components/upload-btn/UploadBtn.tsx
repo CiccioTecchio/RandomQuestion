@@ -38,7 +38,7 @@ function ModalWrongFile(props:{showModal:boolean, onChangeShow:Function}):ReactE
   );
 }
 
-export default function UploadBtn():ReactElement {
+export default function UploadBtn(props:{onValidationUpload:Function}):ReactElement {
   const {t} = useTranslation();
   const [uploadedFile, setUploadFile] = useState<IUploadedFile>({
     name: '',
@@ -59,10 +59,12 @@ export default function UploadBtn():ReactElement {
       reader.onload = (event) =>{
         const res:any = event && event.target && event.target.result;
         setUploadFile({name: nameFile, contentFile: JSON.parse(res), showAlert: false});
+        props.onValidationUpload(true);
       };
       reader.readAsText(file);
     } else {
       setUploadFile({name: '', contentFile: {}, showAlert: true});
+      props.onValidationUpload(false);
     }
   };
 

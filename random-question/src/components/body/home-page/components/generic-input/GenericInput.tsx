@@ -23,17 +23,19 @@ function validateInputNumber(value:string, regExp:RegExp, max:number):StatusVali
   return classToAppend;
 }
 
-export default function GenericInputText(props:{config:IInputText}):ReactElement {
+export default function GenericInputText(props:{config:IInputText, isInputValid:Function}):ReactElement {
   const [value, setValue] = useState<string>('');
-
+  const status:StatusValidation = validateInputNumber(value, props.config.regExp, props.config.max);
   return (
     <InputGroup className='mb-3'>
       <Form.Floating className='form-floating-group flex-grow-1'>
-        <Form.Control id={props.config.id} className={validateInputNumber(value, props.config.regExp, props.config.max)}
+        <Form.Control id={props.config.id} className={status}
           placeholder={props.config.lang.label} type='text' min={props.config.min} max={props.config.max} pattern={props.config.patter}
           onInput = {(event) => {
             event.currentTarget.value = event.currentTarget.value.replace(/\D/, '');
             setValue(event.currentTarget.value);
+          }} onKeyUp={() => {
+            if (status === StatusValidation.Valid) props.isInputValid(true); else props.isInputValid(false);
           }}
         />
         <label htmlFor={props.config.id}>{props.config.lang.label}</label>

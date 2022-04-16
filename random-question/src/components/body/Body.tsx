@@ -1,4 +1,4 @@
-import React, { ReactElement } from 'react';
+import React, { ReactElement, useState } from 'react';
 import {IconProp} from '@fortawesome/fontawesome-svg-core';
 import {faPlay} from '@fortawesome/free-solid-svg-icons';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
@@ -11,11 +11,27 @@ import UploadBtn from './home-page/components/upload-btn/UploadBtn';
 
 interface ICanStart {
   isValidUpload: boolean;
-  isValidPassingScore?: boolean;
-  isValidTimer?: boolean;
+  isValidPassingScore: boolean;
+  isValidTimer: boolean;
 }
 
-function UploadBtnPassingScoreAndTimer():ReactElement {
+function UploadBtnPassingScoreAndTimer(props:{onDisabilitationStart:Function}):ReactElement {
+  const [canStart, setStart] = useState<ICanStart>({isValidUpload: false, isValidPassingScore: false, isValidTimer: false});
+
+  const handleUploadValidation = (value:boolean) => {
+    setStart({isValidUpload: value, isValidPassingScore: canStart.isValidPassingScore, isValidTimer: canStart.isValidTimer});
+    if (value && canStart.isValidPassingScore && canStart.isValidTimer) props.onDisabilitationStart(false); else props.onDisabilitationStart(true);
+  };
+
+  const handlePassingScoreValidation = (value:boolean) => {
+    setStart({isValidUpload: canStart.isValidUpload, isValidPassingScore: value, isValidTimer: canStart.isValidTimer});
+    if (canStart.isValidUpload && value && canStart.isValidTimer) props.onDisabilitationStart(false); else props.onDisabilitationStart(true);
+  };
+  const handleTimerValidation = (value:boolean) => {
+    setStart({isValidUpload: canStart.isValidUpload, isValidPassingScore: canStart.isValidPassingScore, isValidTimer: value});
+    if (canStart.isValidUpload && canStart.isValidPassingScore && value) props.onDisabilitationStart(false); else props.onDisabilitationStart(true);
+  };
+
   const [t] = useTranslation();
   const passingScore:IInputText = {
     id: 'passing-score',
@@ -37,16 +53,16 @@ function UploadBtnPassingScoreAndTimer():ReactElement {
 
   return (
     <Row className="mt-5 text-center">
-      <Col className='mt-2'> <UploadBtn /> </Col>
-      <Col> <GenericInputText config={passingScore} /> </Col>
-      <Col> <GenericInputText config={timer}/> </Col>
+      <Col className='mt-2'> <UploadBtn onValidationUpload={handleUploadValidation}/> </Col>
+      <Col> <GenericInputText config={passingScore} isInputValid={handlePassingScoreValidation}/> </Col>
+      <Col> <GenericInputText config={timer} isInputValid={handleTimerValidation}/> </Col>
     </Row>
   );
 }
 
-function ButtonStart(props:{iCanStart: ICanStart}):ReactElement {
+function ButtonStart(props:{isDisabled: boolean}):ReactElement {
   return (
-    <Button className='play-btn' size='lg' disabled={(props.iCanStart.isValidUpload)? false: true}>
+    <Button className='play-btn' size='lg' disabled={props.isDisabled}>
       <FontAwesomeIcon icon={faPlay as IconProp}/>
     </Button>
   );
@@ -54,6 +70,9 @@ function ButtonStart(props:{iCanStart: ICanStart}):ReactElement {
 
 export default function Body():ReactElement {
   const {t} = useTranslation();
+  const [isDisabled, setIsDisabled] = useState<boolean>(true);
+
+  const handleSetDisabled = (value:boolean) => setIsDisabled(value);
   return (
     <Container>
       <Row className="mt-5 text-center">
@@ -62,9 +81,9 @@ export default function Body():ReactElement {
       <Row className="mt-3 text-center">
         <h3 dangerouslySetInnerHTML={{__html: t('explain')}}></h3>
       </Row>
-      <UploadBtnPassingScoreAndTimer />
+      <UploadBtnPassingScoreAndTimer onDisabilitationStart={handleSetDisabled}/>
       <div className='mt-5 text-center'>
-        <ButtonStart iCanStart={{isValidUpload: false}}/>
+        <ButtonStart isDisabled={isDisabled}/>
       </div>
     </Container>
   );
