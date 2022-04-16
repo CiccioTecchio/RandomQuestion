@@ -6,6 +6,7 @@ import { Alert, Button, Modal } from 'react-bootstrap';
 import { useTranslation } from 'react-i18next';
 import { IUploadedFile } from '../../Interfaces';
 import './UploadBtn';
+import validatorQuestionJSON from './validatorQuestion';
 
 function ModalWrongFile(props:{showModal:boolean, onChangeShow:Function}):ReactElement {
   const {t} = useTranslation();
@@ -51,6 +52,11 @@ export default function UploadBtn(props:{onValidationUpload:Function}):ReactElem
 
   const handleChangeShow = (change:boolean) => setUploadFile({name: uploadedFile.name, contentFile: uploadedFile.contentFile, showAlert: change});
 
+  function invalidUploadFile():void {
+    setUploadFile({name: '', contentFile: {}, showAlert: true});
+    props.onValidationUpload(false);
+  }
+
   const handleShowFile = () =>{
     if (inputRef.current?.files && inputRef.current?.files[0].name.endsWith('.json')) {
       const file:File = inputRef.current.files[0];
@@ -58,14 +64,19 @@ export default function UploadBtn(props:{onValidationUpload:Function}):ReactElem
       const reader:FileReader = new FileReader();
       reader.onload = (event) =>{
         const res:any = event && event.target && event.target.result;
-        setUploadFile({name: nameFile, contentFile: JSON.parse(res), showAlert: false});
-        props.onValidationUpload(true);
+        try {
+          const content = JSON.parse(res);
+          if (validatorQuestionJSON(content) === -1) {
+            setUploadFile({name: nameFile, contentFile: content, showAlert: false});
+            props.onValidationUpload(true);
+          } else invalidUploadFile();
+        } catch (error) {
+          console.error(error);
+          invalidUploadFile();
+        }
       };
       reader.readAsText(file);
-    } else {
-      setUploadFile({name: '', contentFile: {}, showAlert: true});
-      props.onValidationUpload(false);
-    }
+    } else invalidUploadFile();
   };
 
   return (
