@@ -1,0 +1,15 @@
+[
+  {
+  "type": "single",
+  "question": "La capitale della Birmania?",
+  "options": ["Parigi", "San Patrignano", "Chi ca*zo la conosce la capitare della Birmania", "Naypyidaw"],
+  "answers": ["Chi ca*zo la conosce la capitare della Birmania"],
+  "tip": "La sai se hai visto 'La leggenda di Al, John & Jack'"
+  },
+  {
+    "type": "multiple",
+    "question": "In Italia ci sono altri due Stati, quali sono?",
+    "options": ["Paperopoli", "Topolinia", "Padania", "Città del Vaticano", "San Marino", "San Marzano"],
+    "answers": ["Città del Vaticano", "San Marino"]
+    }
+]

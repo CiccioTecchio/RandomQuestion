@@ -1,3 +1,9 @@
+export enum TypeQuestion{
+  // eslint-disable-next-line no-unused-vars
+  Multiple = 'multiple',
+  // eslint-disable-next-line no-unused-vars
+  Single = 'single'
+}
 export interface IInputText{
   id: string;
   patter: string;
@@ -15,3 +21,11 @@ export interface IUploadedFile{
   contentFile: any;
   showAlert: boolean;
 };
+
+export interface IQuestion{
+  type: TypeQuestion;
+  question: string;
+  options: Array<string>;
+  answers: Array<string>;
+  tip?:string;
+}
