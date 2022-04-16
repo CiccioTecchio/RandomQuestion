@@ -32,7 +32,7 @@ export default function Body():ReactElement {
   return (
     <Container>
       {show.showHome && (<HomePage startSimulation={handleHowToShow} takeQuestions={handleQuestionJSON}/>)}
-      {show.showSimulation && (<Simulation questions={questionJSON}></Simulation>)}
+      {show.showSimulation && (<Simulation questions={questionJSON!}></Simulation>)}
     </Container>
   );
 }
