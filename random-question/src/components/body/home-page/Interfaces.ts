@@ -20,6 +20,7 @@ export interface IUploadedFile{
   name: string;
   contentFile: any;
   showAlert: boolean;
+  msgAlert: string;
 };
 
 export interface IQuestion{
@@ -28,4 +29,9 @@ export interface IQuestion{
   options: Array<string>;
   answers: Array<string>;
   tip?:string;
+}
+
+export interface IValidFormQuestion{
+  isValid:boolean;
+  idxWrongElement?:number;
 }

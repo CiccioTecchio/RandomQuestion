@@ -4,11 +4,11 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import React, { ReactElement, useRef, useState } from 'react';
 import { Alert, Button, Modal } from 'react-bootstrap';
 import { useTranslation } from 'react-i18next';
-import { IUploadedFile } from '../../Interfaces';
+import { IUploadedFile, IValidFormQuestion } from '../../Interfaces';
 import './UploadBtn';
 import validatorQuestionJSON from './validatorQuestion';
 
-function ModalWrongFile(props:{showModal:boolean, onChangeShow:Function}):ReactElement {
+function ModalWrongFile(props:{showModal:boolean, msgAlert:string, onChangeShow:Function}):ReactElement {
   const {t} = useTranslation();
   const [show, setShow] = useState(props.showModal);
 
@@ -25,11 +25,11 @@ function ModalWrongFile(props:{showModal:boolean, onChangeShow:Function}):ReactE
   return (
     <Modal show={props.showModal} onHide={handleShow}>
       <Modal.Header>
-        <Modal.Title>{t('error.wrong.format')}</Modal.Title>
+        <Modal.Title>{t('error.wrong.format.title')}</Modal.Title>
       </Modal.Header>
       <Modal.Body>
         <Alert variant='danger'>
-          <span dangerouslySetInnerHTML={{__html: t('error.wrong.format.desciption')}}></span>
+          <span dangerouslySetInnerHTML={{__html: props.msgAlert}}></span>
         </Alert>
       </Modal.Body>
       <Modal.Footer>
@@ -45,15 +45,16 @@ export default function UploadBtn(props:{onValidationUpload:Function}):ReactElem
     name: '',
     contentFile: {},
     showAlert: false,
+    msgAlert: ''
   });
   const inputRef = useRef<HTMLInputElement>(null);
 
   const handleUpload = () => inputRef.current?.click();
 
-  const handleChangeShow = (change:boolean) => setUploadFile({name: uploadedFile.name, contentFile: uploadedFile.contentFile, showAlert: change});
+  const handleChangeShow = (change:boolean) => setUploadFile({name: uploadedFile.name, contentFile: uploadedFile.contentFile, showAlert: change, msgAlert: uploadedFile.msgAlert});
 
-  function invalidUploadFile():void {
-    setUploadFile({name: '', contentFile: {}, showAlert: true});
+  function invalidUploadFile(msgAlert: string):void {
+    setUploadFile({name: '', contentFile: {}, showAlert: true, msgAlert: msgAlert});
     props.onValidationUpload(false);
   }
 
@@ -66,17 +67,21 @@ export default function UploadBtn(props:{onValidationUpload:Function}):ReactElem
         const res:any = event && event.target && event.target.result;
         try {
           const content = JSON.parse(res);
-          if (validatorQuestionJSON(content) === -1) {
-            setUploadFile({name: nameFile, contentFile: content, showAlert: false});
+          const validator:IValidFormQuestion = validatorQuestionJSON(content);
+          if (validator.isValid) {
+            setUploadFile({name: nameFile, contentFile: content, showAlert: false, msgAlert: ''});
             props.onValidationUpload(true);
-          } else invalidUploadFile();
+          } else {
+            const msgErrorForAlet:string = (validator.idxWrongElement)?t('error.syntax.of.json.question', {i: validator.idxWrongElement}): t('error.json.is.not.array');
+            invalidUploadFile(msgErrorForAlet);
+          }
         } catch (error) {
           console.error(error);
-          invalidUploadFile();
+          invalidUploadFile('error.wrong.syntax.json');
         }
       };
       reader.readAsText(file);
-    } else invalidUploadFile();
+    } else invalidUploadFile('error.wrong.type.format.desciption');
   };
 
   return (
@@ -87,8 +92,7 @@ export default function UploadBtn(props:{onValidationUpload:Function}):ReactElem
         <FontAwesomeIcon className='mr-5' icon={faFileArrowUp as IconProp} />
         <span>{uploadedFile.name ? uploadedFile.name : 'Upload'}</span>
       </Button>
-      <ModalWrongFile showModal={uploadedFile.showAlert} onChangeShow = {handleChangeShow}/>
-
+      <ModalWrongFile showModal={uploadedFile.showAlert} msgAlert={t(uploadedFile.msgAlert)} onChangeShow = {handleChangeShow}/>
     </div>
   );
 }

@@ -1,10 +1,10 @@
-import { TypeQuestion } from '../../Interfaces';
+import { IValidFormQuestion, TypeQuestion } from '../../Interfaces';
 
-export default function validatorQuestionJSON(inputFile:any): number {
-  let idx:number = -1;
+export default function validatorQuestionJSON(inputFile:any):IValidFormQuestion {
+  let isValidFormat:IValidFormQuestion = {isValid: false};
   if (Array.isArray(inputFile)) {
     inputFile as Array<any>;
-    idx = inputFile.findIndex((element:any) => {
+    const idx = inputFile.findIndex((element:any) => {
       let wrongElement:boolean = false;
       if (typeof element !== 'object') wrongElement = true;
       else {
@@ -12,8 +12,9 @@ export default function validatorQuestionJSON(inputFile:any): number {
       }
       return wrongElement;
     });
+    isValidFormat = (idx === -1)?{isValid: true}:{isValid: false, idxWrongElement: idx};
   }
-  return idx;
+  return isValidFormat;
 }
 
 function isAnArrayOfString(value:any):boolean {
