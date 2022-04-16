@@ -39,7 +39,7 @@ function ModalWrongFile(props:{showModal:boolean, msgAlert:string, onChangeShow:
   );
 }
 
-export default function UploadBtn(props:{onValidationUpload:Function}):ReactElement {
+export default function UploadBtn(props:{onValidationUpload:Function, takeQuestion:Function}):ReactElement {
   const {t} = useTranslation();
   const [uploadedFile, setUploadFile] = useState<IUploadedFile>({
     name: '',
@@ -71,6 +71,7 @@ export default function UploadBtn(props:{onValidationUpload:Function}):ReactElem
           if (validator.isValid) {
             setUploadFile({name: nameFile, contentFile: content, showAlert: false, msgAlert: ''});
             props.onValidationUpload(true);
+            props.takeQuestion(content);
           } else {
             const msgErrorForAlet:string = (validator.idxWrongElement)?t('error.syntax.of.json.question', {i: validator.idxWrongElement}): t('error.json.is.not.array');
             invalidUploadFile(msgErrorForAlet);

@@ -35,3 +35,17 @@ export interface IValidFormQuestion{
   isValid:boolean;
   idxWrongElement?:number;
 }
+
+export interface ICanStart {
+  isValidUpload: boolean;
+  isValidPassingScore: boolean;
+  isValidTimer: boolean;
+}
+
+export interface IPageToShow {
+  showHome: boolean;
+  showDoc: boolean;
+  showSimulation: boolean;
+  showPreSendSimulation: boolean;
+  showResumeSimulation: boolean;
+}
