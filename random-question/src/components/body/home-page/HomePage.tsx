@@ -1,4 +1,3 @@
-/* eslint-disable no-unused-vars */
 import { IconProp } from '@fortawesome/fontawesome-svg-core';
 import { faPlay } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -9,7 +8,7 @@ import { PageName } from '../Constants';
 import GenericInputText from './components/generic-input/GenericInput';
 import UploadBtn from './components/upload-btn/UploadBtn';
 import './HomePage.scss';
-import { ICanStart, IInputText, IQuestion } from './Interfaces';
+import { ICanStart, IInputText } from './Interfaces';
 
 export default function HomePage(props:{startSimulation:Function, takeQuestions:Function}):ReactElement {
   const [canStart, setStart] = useState<ICanStart>({isValidUpload: false, isValidPassingScore: false, isValidTimer: false});

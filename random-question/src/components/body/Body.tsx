@@ -15,7 +15,7 @@ export default function Body():ReactElement {
     showResumeSimulation: false
   });
 
-  const [questionJSON, setQuestionJSON] = useState<IQuestion>();
+  const [questionJSON, setQuestionJSON] = useState<Array<IQuestion>>([]);
 
   const handleHowToShow = (pageToShow:PageName) => {
     setShow({
@@ -27,12 +27,12 @@ export default function Body():ReactElement {
     });
   };
 
-  const handleQuestionJSON = (questions:IQuestion) => setQuestionJSON(questions);
+  const handleQuestionJSON = (questions:Array<IQuestion>) => setQuestionJSON(questions);
 
   return (
     <Container>
       {show.showHome && (<HomePage startSimulation={handleHowToShow} takeQuestions={handleQuestionJSON}/>)}
-      {show.showSimulation && (<Simulation question={questionJSON}></Simulation>)}
+      {show.showSimulation && (<Simulation questions={questionJSON}></Simulation>)}
     </Container>
   );
 }
