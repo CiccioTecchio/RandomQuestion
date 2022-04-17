@@ -21,7 +21,7 @@ export default function QuestionFrame(props:{question:IQuestion, idxQuestion:num
         <Card.Title className='text-center' dangerouslySetInnerHTML={{__html: props.question.question}} />
         <Card.Body>
           <Form>
-            <div className="mt-3 d-flex justify-content-between flex-gap">
+            <div className="mt-1 d-flex justify-content-between flex-gap">
               <div className="mt-4">
                 <Button variant="outline-danger">
                   <FontAwesomeIcon icon={faFlag as IconProp}/>
@@ -29,7 +29,7 @@ export default function QuestionFrame(props:{question:IQuestion, idxQuestion:num
               </div>
               <div>
                 {props.question.options.map((opt:string, i:number) =>
-                  <Form.Check id={`options-${i}`} key={`options-${i}`} name={`group-${props.idxQuestion}`} value={opt}
+                  <Form.Check id={`options-${i}`} key={`options-${i}`} name={`group-${props.idxQuestion}`} value={opt} className="mt-2"
                     type={(props.question.type === TypeQuestion.Single)?'radio':'checkbox'} label={opt}
                     onClick={(event) => handleAddInSetOfSelectedOpt(event.currentTarget.value, props.question.type)} />)}
               </div>
