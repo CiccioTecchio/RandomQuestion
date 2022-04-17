@@ -52,4 +52,5 @@ export interface IPageToShow {
 
 export interface IQuestionAnswered {
   selectedOptions: Array<string>;
+  isFlagged:boolean;
 }
