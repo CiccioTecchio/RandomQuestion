@@ -51,7 +51,6 @@ export default function Questions(props:{questions:Array<IQuestion>}): ReactElem
 
   const disableNext = () => answeredQuestion[currentQuestionIdx].selectedOptions.length === 0 || currentQuestionIdx+1 === props.questions.length;
 
-  console.log(answeredQuestion);
   return (
     <Row className='mt-5'>
       <Col className='align-self-center'>
