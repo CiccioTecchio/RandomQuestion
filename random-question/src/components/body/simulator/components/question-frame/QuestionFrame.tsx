@@ -1,20 +1,13 @@
 import { IconProp } from '@fortawesome/fontawesome-svg-core';
 import { faFlag, faLightbulb } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import React, {ReactElement, useState} from 'react';
+import React, {ReactElement} from 'react';
 import { Card, Form, Button } from 'react-bootstrap';
 import { IQuestion, TypeQuestion } from '../../../home-page/Interfaces';
 import './QuestionFrame.scss';
 
 // ricordati di effettuare lo shuffle delle options quando recuperi il file in upload Btn
-export default function QuestionFrame(props:{question:IQuestion, idxQuestion:number}): ReactElement {
-  const [selectedOptions, setSelectedOptions] = useState<string>('');
-
-  const handleAddInSetOfSelectedOpt = (value:string, options:TypeQuestion) => {
-    setSelectedOptions(value);
-  };
-
-  console.log(selectedOptions);
+export default function QuestionFrame(props:{question:IQuestion, idxQuestion:number, selectedOptions:Array<string>, updateSelectedOptions:Function}): ReactElement {
   return (
     <Card border='primary'>
       <Card.Body>
@@ -22,7 +15,7 @@ export default function QuestionFrame(props:{question:IQuestion, idxQuestion:num
         <Card.Body>
           <Form>
             <div className="mt-1 d-flex justify-content-between flex-gap">
-              <div className="mt-4">
+              <div className="align-self-center mt-4">
                 <Button variant="outline-danger">
                   <FontAwesomeIcon icon={faFlag as IconProp}/>
                 </Button>
@@ -30,10 +23,11 @@ export default function QuestionFrame(props:{question:IQuestion, idxQuestion:num
               <div>
                 {props.question.options.map((opt:string, i:number) =>
                   <Form.Check id={`options-${i}`} key={`options-${i}`} name={`group-${props.idxQuestion}`} value={opt} className="mt-2"
-                    type={(props.question.type === TypeQuestion.Single)?'radio':'checkbox'} label={opt}
-                    onClick={(event) => handleAddInSetOfSelectedOpt(event.currentTarget.value, props.question.type)} />)}
+                    type={(props.question.type === TypeQuestion.Single)?'radio':'checkbox'} label={opt} checked={(props.selectedOptions.includes(opt)?true:false)}
+                    onClick={(event) => props.updateSelectedOptions(event.currentTarget.value, props.question.type)} onChange={() => {}}/>
+                )}
               </div>
-              <div className='mt-4'>
+              <div className='align-self-center mt-4'>
                 { props.question.tip && (
                   <Button variant="outline-warning">
                     <FontAwesomeIcon icon={faLightbulb as IconProp}/>

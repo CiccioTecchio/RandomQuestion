@@ -49,3 +49,7 @@ export interface IPageToShow {
   showPreSendSimulation: boolean;
   showResumeSimulation: boolean;
 }
+
+export interface IQuestionAnswered {
+  selectedOptions: Array<string>;
+}
