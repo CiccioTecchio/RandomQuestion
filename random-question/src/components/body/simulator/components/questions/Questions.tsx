@@ -53,7 +53,7 @@ export default function Questions(props:{questions:Array<IQuestion>}): ReactElem
   return (
     <Row className='mt-5'>
       <Col className='align-self-center'>
-        <Button variant="outline-info" onClick={() => changeQuestion(currentQuestionIdx-1)} disabled={disablePrev()}>
+        <Button variant="info" onClick={() => changeQuestion(currentQuestionIdx-1)} disabled={disablePrev()}>
           <FontAwesomeIcon icon={faArrowLeft as IconProp}/>
         </Button>
       </Col>
@@ -61,7 +61,7 @@ export default function Questions(props:{questions:Array<IQuestion>}): ReactElem
         <QuestionFrame question={props.questions[currentQuestionIdx]} idxQuestion={currentQuestionIdx} selectedOptions={answeredQuestion[currentQuestionIdx].selectedOptions} updateSelectedOptions={handleAnsweredQuestion}></QuestionFrame>
       </Col>
       <Col className='align-self-center d-flex justify-content-end'>
-        { !disableNext()?<Button variant="info" onClick={() => changeQuestion(currentQuestionIdx+1)} disabled={disableNext()}>
+        { (currentQuestionIdx < props.questions.length -1)?<Button variant="info" onClick={() => changeQuestion(currentQuestionIdx+1)} disabled={disableNext()}>
           <FontAwesomeIcon icon={faArrowRight as IconProp}/>
         </Button>: <SendSimulation lastSelectedOptions={answeredQuestion[currentQuestionIdx].selectedOptions}/>}
       </Col>
