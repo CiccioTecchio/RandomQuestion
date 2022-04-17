@@ -1,6 +1,6 @@
 /* eslint-disable no-unused-vars */
 import { IconProp } from '@fortawesome/fontawesome-svg-core';
-import { faArrowLeft, faArrowRight } from '@fortawesome/free-solid-svg-icons';
+import { faArrowLeft, faArrowRight, faPaperPlane } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import React, { ReactElement, useState } from 'react';
 import { Button, Col, Row } from 'react-bootstrap';
@@ -62,9 +62,17 @@ export default function Questions(props:{questions:Array<IQuestion>}): ReactElem
         <QuestionFrame question={props.questions[currentQuestionIdx]} idxQuestion={currentQuestionIdx} selectedOptions={answeredQuestion[currentQuestionIdx].selectedOptions} updateSelectedOptions={handleAnsweredQuestion}></QuestionFrame>
       </Col>
       <Col className='align-self-center d-flex justify-content-end'>
-        <Button variant="outline-info" onClick={() => changeQuestion(currentQuestionIdx+1)} disabled={disableNext()}>
+        { !disableNext()?<Button variant="info" onClick={() => changeQuestion(currentQuestionIdx+1)} disabled={disableNext()}>
           <FontAwesomeIcon icon={faArrowRight as IconProp}/>
-        </Button>
+        </Button>: <SendSimulation lastSelectedOptions={answeredQuestion[currentQuestionIdx].selectedOptions}/>}
       </Col>
     </Row>);
+}
+
+function SendSimulation(props:{lastSelectedOptions:Array<string>}):ReactElement {
+  return (
+    <Button variant='success' disabled={props.lastSelectedOptions.length === 0} onClick={() => console.log('termina simulazione')}>
+      <FontAwesomeIcon icon={faPaperPlane as IconProp}/>
+    </Button>
+  );
 }
