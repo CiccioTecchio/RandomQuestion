@@ -1,4 +1,3 @@
-/* eslint-disable no-unused-vars */
 import { IconProp } from '@fortawesome/fontawesome-svg-core';
 import { faArrowLeft, faArrowRight, faPaperPlane } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';

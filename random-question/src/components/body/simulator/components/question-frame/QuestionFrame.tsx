@@ -1,13 +1,20 @@
 import { IconProp } from '@fortawesome/fontawesome-svg-core';
 import { faFlag, faLightbulb } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import React, {ReactElement} from 'react';
-import { Card, Form, Button } from 'react-bootstrap';
+import React, {ReactElement, useRef, useState} from 'react';
+import { Card, Form, Button, Tooltip, OverlayTrigger } from 'react-bootstrap';
 import { IQuestion, TypeQuestion } from '../../../home-page/Interfaces';
 import './QuestionFrame.scss';
 
 // ricordati di effettuare lo shuffle delle options quando recuperi il file in upload Btn
 export default function QuestionFrame(props:{question:IQuestion, idxQuestion:number, selectedOptions:Array<string>, updateSelectedOptions:Function}): ReactElement {
+  const [showTip, setShowTip] = useState(false);
+  const target = useRef(null);
+  const renderTooltip = (p:any) => (
+    <Tooltip id='tip-tooltip' {...p}>
+      <span dangerouslySetInnerHTML={{__html: (props.question.tip)?props.question.tip:''}}></span>
+    </Tooltip>
+  );
   return (
     <Card border='primary'>
       <Card.Body>
@@ -29,9 +36,11 @@ export default function QuestionFrame(props:{question:IQuestion, idxQuestion:num
               </div>
               <div className='align-self-center mt-4'>
                 { props.question.tip && (
-                  <Button variant="outline-warning">
-                    <FontAwesomeIcon icon={faLightbulb as IconProp}/>
-                  </Button>
+                  <OverlayTrigger placement='bottom' delay={{ show: 150, hide: 400 }} overlay={renderTooltip}>
+                    <Button variant='outline-warning' ref={target} onClick={() => setShowTip(!showTip)}>
+                      <FontAwesomeIcon icon={faLightbulb as IconProp} />
+                    </Button>
+                  </OverlayTrigger>
                 )}
               </div>
             </div>
