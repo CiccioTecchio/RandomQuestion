@@ -16,6 +16,10 @@ export default function Body():ReactElement {
   });
 
   const [questionJSON, setQuestionJSON] = useState<Array<IQuestion>>([]);
+  const [timer, setTimer] = useState<number>(0);
+  // passare il passingScore alla compenente che dirà se il quiz è stato superato o meno
+  // eslint-disable-next-line no-unused-vars
+  const [passingScore, setPassingScore] = useState<number>(0);
 
   const handleHowToShow = (pageToShow:PageName) => {
     setShow({
@@ -28,11 +32,13 @@ export default function Body():ReactElement {
   };
 
   const handleQuestionJSON = (questions:Array<IQuestion>) => setQuestionJSON(questions);
+  const handleTimer = (timer:number) => setTimer(timer);
+  const handlePassingScore = (ps:number) => setPassingScore(ps);
 
   return (
     <Container>
-      {show.showHome && (<HomePage startSimulation={handleHowToShow} takeQuestions={handleQuestionJSON}/>)}
-      {show.showSimulation && (<Simulation questions={questionJSON!}></Simulation>)}
+      {show.showHome && (<HomePage startSimulation={handleHowToShow} takeQuestions={handleQuestionJSON} takeTimer={handleTimer} takePassingScore={handlePassingScore}/>)}
+      {show.showSimulation && (<Simulation questions={questionJSON!} timer={timer}></Simulation>)}
     </Container>
   );
 }

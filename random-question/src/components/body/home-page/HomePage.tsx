@@ -10,7 +10,7 @@ import UploadBtn from './components/upload-btn/UploadBtn';
 import './HomePage.scss';
 import { ICanStart, IInputText } from './Interfaces';
 
-export default function HomePage(props:{startSimulation:Function, takeQuestions:Function}):ReactElement {
+export default function HomePage(props:{startSimulation:Function, takeQuestions:Function, takeTimer:Function, takePassingScore:Function}):ReactElement {
   const [canStart, setStart] = useState<ICanStart>({isValidUpload: false, isValidPassingScore: false, isValidTimer: false});
 
   const handleUploadValidation = (value:boolean) => {
@@ -56,8 +56,8 @@ export default function HomePage(props:{startSimulation:Function, takeQuestions:
       </Row>
       <Row className="mt-5 text-center">
         <Col className='mt-2'> <UploadBtn onValidationUpload={handleUploadValidation} takeQuestion={props.takeQuestions}/> </Col>
-        <Col> <GenericInputText config={passingScore} isInputValid={handlePassingScoreValidation}/> </Col>
-        <Col> <GenericInputText config={timer} isInputValid={handleTimerValidation}/> </Col>
+        <Col> <GenericInputText config={passingScore} isInputValid={handlePassingScoreValidation} takeValue={props.takePassingScore}/> </Col>
+        <Col> <GenericInputText config={timer} isInputValid={handleTimerValidation} takeValue={props.takeTimer}/> </Col>
       </Row>
       <div className='mt-5 text-center'>
         <Button className='play-btn' size='lg' disabled={!(canStart.isValidUpload && canStart.isValidPassingScore && canStart.isValidTimer)} onClick={handleStartSimulation}>

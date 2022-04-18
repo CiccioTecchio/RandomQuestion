@@ -23,7 +23,7 @@ function validateInputNumber(value:string, regExp:RegExp, max:number):StatusVali
   return classToAppend;
 }
 
-export default function GenericInputText(props:{config:IInputText, isInputValid:Function}):ReactElement {
+export default function GenericInputText(props:{config:IInputText, isInputValid:Function, takeValue:Function}):ReactElement {
   const [value, setValue] = useState<string>('');
   const status:StatusValidation = validateInputNumber(value, props.config.regExp, props.config.max);
   return (
@@ -34,6 +34,7 @@ export default function GenericInputText(props:{config:IInputText, isInputValid:
           onInput = {(event) => {
             event.currentTarget.value = event.currentTarget.value.replace(/\D/, '');
             setValue(event.currentTarget.value);
+            props.takeValue(parseInt(event.currentTarget.value));
           }} onKeyUp={() => {
             if (status === StatusValidation.Valid) props.isInputValid(true); else props.isInputValid(false);
           }}
