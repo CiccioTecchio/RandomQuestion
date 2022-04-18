@@ -38,6 +38,13 @@ export default function Questions(props:{questions:Array<IQuestion>, updateQAInS
     props.updateQAInSimulation({qaList: tmp, idxCurrentQ: currentQuestionIdx});
   };
 
+  const handleFlaggedQuestion = () => {
+    const tmp:Array<IQuestionAnswered> = [...answeredQuestion];
+    tmp[props.currentQuestionIdx].isFlagged = !tmp[props.currentQuestionIdx].isFlagged;
+    setAnsweredQuestion(tmp);
+    props.updateQAInSimulation({qaList: tmp, idxCurrentQ: props.currentQuestionIdx});
+  };
+
   const disablePrev = () => props.currentQuestionIdx === 0;
 
   const disableNext = () => answeredQuestion[props.currentQuestionIdx].selectedOptions.length === 0 || props.currentQuestionIdx+1 === props.questions.length;
@@ -50,7 +57,9 @@ export default function Questions(props:{questions:Array<IQuestion>, updateQAInS
         </Button>
       </Col>
       <Col md={9} >
-        <QuestionFrame question={props.questions[props.currentQuestionIdx]} idxQuestion={props.currentQuestionIdx} selectedOptions={answeredQuestion[props.currentQuestionIdx].selectedOptions} updateSelectedOptions={handleAnsweredQuestion}></QuestionFrame>
+        <QuestionFrame question={props.questions[props.currentQuestionIdx]} idxQuestion={props.currentQuestionIdx}
+          selectedOptions={answeredQuestion[props.currentQuestionIdx].selectedOptions} updateSelectedOptions={handleAnsweredQuestion}
+          isFlagged={answeredQuestion[props.currentQuestionIdx].isFlagged} updateFlag={handleFlaggedQuestion}></QuestionFrame>
       </Col>
       <Col className='align-self-center d-flex justify-content-end'>
         { (props.currentQuestionIdx < props.questions.length -1)?<Button variant="info" onClick={() => props.changeQuestion(props.currentQuestionIdx+1)} disabled={disableNext()}>

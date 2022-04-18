@@ -10,7 +10,7 @@ enum VariantBtn{
   // eslint-disable-next-line no-unused-vars
   Current = 'primary',
   // eslint-disable-next-line no-unused-vars
-  Flagged = 'outline-danger',
+  Flagged = 'warning',
   // eslint-disable-next-line no-unused-vars
   SelectedAnswer = 'success'
 }

@@ -7,7 +7,7 @@ import { IQuestion, TypeQuestion } from '../../../home-page/Interfaces';
 import './QuestionFrame.scss';
 
 // ricordati di effettuare lo shuffle delle options quando recuperi il file in upload Btn
-export default function QuestionFrame(props:{question:IQuestion, idxQuestion:number, selectedOptions:Array<string>, updateSelectedOptions:Function}): ReactElement {
+export default function QuestionFrame(props:{question:IQuestion, idxQuestion:number, selectedOptions:Array<string>, updateSelectedOptions:Function, isFlagged:boolean, updateFlag:Function}): ReactElement {
   const [showTip, setShowTip] = useState(false);
   const target = useRef(null);
   const renderTooltip = (p:any) => (
@@ -23,7 +23,7 @@ export default function QuestionFrame(props:{question:IQuestion, idxQuestion:num
           <Form>
             <div className="mt-1 d-flex justify-content-between flex-gap">
               <div className="align-self-center mt-4">
-                <Button variant="outline-danger">
+                <Button variant={`${(props.isFlagged)?'danger':'outline-danger'}`} onClick={() => props.updateFlag()}>
                   <FontAwesomeIcon icon={faFlag as IconProp}/>
                 </Button>
               </div>
