@@ -30,8 +30,6 @@ export default function Simulation(props:{questions:Array<IQuestion>, timer:numb
     return () => clearInterval(interval);
   }, [currentTimer]);
 
-  // console.log(`${Math.floor(currentTimer/60)}:${currentTimer%60}`);
-
   return (
     <>
       <QuestionNavigator questionAnswered={answeredQuestion.qaList} currentQuestionIdx={currentQuestionIdx} changeQuestion={handleChangeQuestion}/>
