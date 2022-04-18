@@ -16,7 +16,7 @@ enum VariantBtn{
 }
 
 // TODO implementare gestione della domanda flagged
-export default function QuestionNavigator(props:{questionAnswered:Array<IQuestionAnswered>, currentQuestionIdx: number}):ReactElement {
+export default function QuestionNavigator(props:{questionAnswered:Array<IQuestionAnswered>, currentQuestionIdx: number, changeQuestion:Function}):ReactElement {
   function chooseColorBtn(questionI:IQuestionAnswered, i:number, currentQuestionIdx:number):VariantBtn {
     let colorVariant:VariantBtn = VariantBtn.Normal;
     if (i === currentQuestionIdx) colorVariant = VariantBtn.Current;
@@ -34,7 +34,7 @@ export default function QuestionNavigator(props:{questionAnswered:Array<IQuestio
 
   function isDisabledBtn(qList:Array<IQuestionAnswered>, i:number, currentQuestionIdx:number):boolean {
     const idx = qList.findIndex((q:IQuestionAnswered) => q.selectedOptions.length === 0);
-    return (idx <= i)?true:false;
+    return (idx < i)?true:false;
   }
 
   return (
@@ -47,7 +47,8 @@ export default function QuestionNavigator(props:{questionAnswered:Array<IQuestio
             <Row>
               {props.questionAnswered.map((q:IQuestionAnswered, i:number) => (
                 <BtnQuestion key={`q-${i}`} variant={chooseColorBtn(q, i, props.currentQuestionIdx)} idx={i+1}
-                  isDisabled = {isDisabledBtn(props.questionAnswered, i, props.currentQuestionIdx)}/>
+                  isDisabled = {isDisabledBtn(props.questionAnswered, i, props.currentQuestionIdx)}
+                  goToQuestion = {props.changeQuestion} />
               ))}
             </Row>
           </Card.Body>
@@ -58,10 +59,9 @@ export default function QuestionNavigator(props:{questionAnswered:Array<IQuestio
   );
 }
 
-// implementare l'onCLick con il goTo alla question selezionata
-function BtnQuestion(props:{variant:VariantBtn, idx:number, isDisabled:boolean}):ReactElement {
+function BtnQuestion(props:{variant:VariantBtn, idx:number, isDisabled:boolean, goToQuestion:Function}):ReactElement {
   return (
     <Button variant={props.variant} className='idx-question btn-square m-1' size='sm' disabled={props.isDisabled}
-      onClick={(e) => console.log('goTo', parseInt(e.currentTarget.innerHTML)-1)}>{props.idx}</Button>
+      onClick={(e) => props.goToQuestion( parseInt(e.currentTarget.innerHTML)-1)}>{props.idx}</Button>
   );
 }

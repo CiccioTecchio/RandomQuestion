@@ -6,7 +6,7 @@ import { Button, Col, Row } from 'react-bootstrap';
 import { IQuestion, IQuestionAnswered, TypeQuestion } from '../../../home-page/Interfaces';
 import QuestionFrame from '../question-frame/QuestionFrame';
 
-export default function Questions(props:{questions:Array<IQuestion>, updateQAInSimulation:Function}): ReactElement {
+export default function Questions(props:{questions:Array<IQuestion>, updateQAInSimulation:Function, currentQuestionIdx:number, changeQuestion:Function}): ReactElement {
   function initAnsweredQuestion():Array<IQuestionAnswered> {
     return props.questions.map(() => {
       return {selectedOptions: [], isFlagged: false};
@@ -14,23 +14,14 @@ export default function Questions(props:{questions:Array<IQuestion>, updateQAInS
   };
 
   const [answeredQuestion, setAnsweredQuestion] = useState<Array<IQuestionAnswered>>(initAnsweredQuestion());
-  const [currentQuestionIdx, setCurrentQuestionIdx] = useState<number>(0);
-
-  const changeQuestion = (newIdx:number) => {
-    try {
-      setCurrentQuestionIdx(newIdx);
-      props.updateQAInSimulation({qaList: answeredQuestion, idxCurrentQ: newIdx});
-    } catch (error) {
-      console.error(error);
-    }
-  };
 
   const handleAnsweredQuestion = (value:string, options:TypeQuestion) => {
     const tmp:Array<IQuestionAnswered> = [...answeredQuestion];
+    const currentQuestionIdx:number = props.currentQuestionIdx;
     switch (options) {
       case TypeQuestion.Single: {
-        tmp[currentQuestionIdx] = {
-          selectedOptions: [value], isFlagged: tmp[currentQuestionIdx].isFlagged
+        tmp[props.currentQuestionIdx] = {
+          selectedOptions: [value], isFlagged: tmp[props.currentQuestionIdx].isFlagged
         };
         setAnsweredQuestion(tmp);
       }; break;
@@ -47,24 +38,24 @@ export default function Questions(props:{questions:Array<IQuestion>, updateQAInS
     props.updateQAInSimulation({qaList: tmp, idxCurrentQ: currentQuestionIdx});
   };
 
-  const disablePrev = () => currentQuestionIdx === 0;
+  const disablePrev = () => props.currentQuestionIdx === 0;
 
-  const disableNext = () => answeredQuestion[currentQuestionIdx].selectedOptions.length === 0 || currentQuestionIdx+1 === props.questions.length;
+  const disableNext = () => answeredQuestion[props.currentQuestionIdx].selectedOptions.length === 0 || props.currentQuestionIdx+1 === props.questions.length;
 
   return (
     <Row className='mt-3'>
       <Col className='align-self-center'>
-        <Button variant="info" onClick={() => changeQuestion(currentQuestionIdx-1)} disabled={disablePrev()}>
+        <Button variant="info" onClick={() => props.changeQuestion(props.currentQuestionIdx-1)} disabled={disablePrev()}>
           <FontAwesomeIcon icon={faArrowLeft as IconProp}/>
         </Button>
       </Col>
       <Col md={9} >
-        <QuestionFrame question={props.questions[currentQuestionIdx]} idxQuestion={currentQuestionIdx} selectedOptions={answeredQuestion[currentQuestionIdx].selectedOptions} updateSelectedOptions={handleAnsweredQuestion}></QuestionFrame>
+        <QuestionFrame question={props.questions[props.currentQuestionIdx]} idxQuestion={props.currentQuestionIdx} selectedOptions={answeredQuestion[props.currentQuestionIdx].selectedOptions} updateSelectedOptions={handleAnsweredQuestion}></QuestionFrame>
       </Col>
       <Col className='align-self-center d-flex justify-content-end'>
-        { (currentQuestionIdx < props.questions.length -1)?<Button variant="info" onClick={() => changeQuestion(currentQuestionIdx+1)} disabled={disableNext()}>
+        { (props.currentQuestionIdx < props.questions.length -1)?<Button variant="info" onClick={() => props.changeQuestion(props.currentQuestionIdx+1)} disabled={disableNext()}>
           <FontAwesomeIcon icon={faArrowRight as IconProp}/>
-        </Button>: <SendSimulation lastSelectedOptions={answeredQuestion[currentQuestionIdx].selectedOptions}/>}
+        </Button>: <SendSimulation lastSelectedOptions={answeredQuestion[props.currentQuestionIdx].selectedOptions}/>}
       </Col>
     </Row>);
 }

@@ -10,13 +10,22 @@ export default function Simulation(props:{questions:Array<IQuestion>}): ReactEle
       return {selectedOptions: [], isFlagged: false};
     });
   };
-  const [answeredQuestion, setAnsweredQuestion] = useState<{qaList:Array<IQuestionAnswered>, idxCurrentQ:number}>({qaList: initAnsweredQuestion(), idxCurrentQ: 0});
-  const handleAnsweredQuestion = (value:{qaList:Array<IQuestionAnswered>, idxCurrentQ:number}) => setAnsweredQuestion(value);
+  const [answeredQuestion, setAnsweredQuestion] = useState<{qaList:Array<IQuestionAnswered>}>({qaList: initAnsweredQuestion()});
+  const handleAnsweredQuestion = (value:{qaList:Array<IQuestionAnswered>}) => setAnsweredQuestion(value);
+  const [currentQuestionIdx, setCurrentQuestionIdx] = useState<number>(0);
+
+  const handleChangeQuestion = (newIdx:number) => {
+    try {
+      setCurrentQuestionIdx(newIdx);
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
   return (
     <>
-      <QuestionNavigator questionAnswered={answeredQuestion.qaList} currentQuestionIdx={answeredQuestion.idxCurrentQ}/>
-      <Questions questions={props.questions} updateQAInSimulation={handleAnsweredQuestion} />
+      <QuestionNavigator questionAnswered={answeredQuestion.qaList} currentQuestionIdx={currentQuestionIdx} changeQuestion={handleChangeQuestion}/>
+      <Questions questions={props.questions} updateQAInSimulation={handleAnsweredQuestion} currentQuestionIdx={currentQuestionIdx} changeQuestion={handleChangeQuestion} />
     </>
   );
 }
