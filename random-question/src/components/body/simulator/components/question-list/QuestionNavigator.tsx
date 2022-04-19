@@ -1,5 +1,6 @@
 import React, { ReactElement } from 'react';
 import { Row, Col, Card, Button } from 'react-bootstrap';
+import { useTranslation } from 'react-i18next';
 import { IQuestionAnswered } from '../../../home-page/Interfaces';
 import './QuestionNavigator.scss';
 
@@ -17,6 +18,7 @@ enum VariantBtn{
 
 // TODO implementare gestione della domanda flagged
 export default function QuestionNavigator(props:{questionAnswered:Array<IQuestionAnswered>, currentQuestionIdx: number, changeQuestion:Function}):ReactElement {
+  const {t} = useTranslation();
   function chooseColorBtn(questionI:IQuestionAnswered, i:number, currentQuestionIdx:number):VariantBtn {
     let colorVariant:VariantBtn = VariantBtn.Normal;
     if (i === currentQuestionIdx) colorVariant = VariantBtn.Current;
@@ -41,7 +43,7 @@ export default function QuestionNavigator(props:{questionAnswered:Array<IQuestio
       <Col />
       <Col md={9}>
         <Card className="mt-3">
-          <Card.Header className="text-center">Navigatore</Card.Header>
+          <Card.Header className="text-center">{t('navigator.title')}</Card.Header>
           <Card.Body>
             <Row>
               {props.questionAnswered.map((q:IQuestionAnswered, i:number) => (
