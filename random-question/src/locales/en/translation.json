@@ -9,5 +9,6 @@
   "error.wrong.syntax.json": "You've attached a <i>JSON</i> containing syntax errors, to check and fix these errors you can use <a href='https://codebeautify.org/jsonviewer' target='_blank'>codebeautify.org</a>.",
   "error.json.is.not.array": "The JSON you attached doesn't contain a <b>list</b> of question; attach a <i>JSON</i> that respects <a href='#' target='_blank'>this structure</a>.",
   "error.syntax.of.json.question": "There is a syntax problem in the element with index {{i}}; the JSON must respect <a href='#' target='_blank'>this structure</a>.",
-  "navigator.title": "Questions list"
+  "navigator.title": "Questions list",
+  "close": "Close"
 }
