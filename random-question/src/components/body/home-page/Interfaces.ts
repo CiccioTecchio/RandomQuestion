@@ -46,7 +46,6 @@ export interface IPageToShow {
   showHome: boolean;
   showDoc: boolean;
   showSimulation: boolean;
-  showPreSendSimulation: boolean;
   showResumeSimulation: boolean;
 }
 

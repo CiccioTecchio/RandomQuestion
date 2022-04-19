@@ -4,6 +4,7 @@ import './Body.scss';
 import { PageName } from './Constants';
 import HomePage from './home-page/HomePage';
 import { IPageToShow, IQuestion } from './home-page/Interfaces';
+import ResumeSimulation from './resume-simulation/ResumeSimulation';
 import Simulation from './simulator/Simulation';
 
 export default function Body():ReactElement {
@@ -11,14 +12,11 @@ export default function Body():ReactElement {
     showHome: true,
     showDoc: false,
     showSimulation: false,
-    showPreSendSimulation: false,
     showResumeSimulation: false
   });
 
   const [questionJSON, setQuestionJSON] = useState<Array<IQuestion>>([]);
   const [timer, setTimer] = useState<number>(0);
-  // passare il passingScore alla compenente che dirà se il quiz è stato superato o meno
-  // eslint-disable-next-line no-unused-vars
   const [passingScore, setPassingScore] = useState<number>(0);
 
   const handleHowToShow = (pageToShow:PageName) => {
@@ -26,7 +24,6 @@ export default function Body():ReactElement {
       showHome: (pageToShow == PageName.Home)?true: false,
       showDoc: (pageToShow == PageName.Doc)?true: false,
       showSimulation: (pageToShow == PageName.Simulator)?true: false,
-      showPreSendSimulation: (pageToShow == PageName.PreSendSimulation)?true: false,
       showResumeSimulation: (pageToShow == PageName.ResumeSimulation)?true: false
     });
   };
@@ -38,7 +35,8 @@ export default function Body():ReactElement {
   return (
     <Container>
       {show.showHome && (<HomePage startSimulation={handleHowToShow} takeQuestions={handleQuestionJSON} takeTimer={handleTimer} takePassingScore={handlePassingScore}/>)}
-      {show.showSimulation && (<Simulation questions={questionJSON!} timer={timer}></Simulation>)}
+      {show.showSimulation && (<Simulation goToResumePage={handleHowToShow} questions={questionJSON!} timer={timer}></Simulation>)}
+      {show.showResumeSimulation && (<ResumeSimulation passingScore={passingScore}/>)}
     </Container>
   );
 }

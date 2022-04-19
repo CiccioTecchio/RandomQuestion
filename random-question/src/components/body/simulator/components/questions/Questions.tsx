@@ -3,10 +3,11 @@ import { faArrowLeft, faArrowRight, faPaperPlane } from '@fortawesome/free-solid
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import React, { ReactElement, useState } from 'react';
 import { Button, Col, Row } from 'react-bootstrap';
+import { PageName } from '../../../Constants';
 import { IQuestion, IQuestionAnswered, TypeQuestion } from '../../../home-page/Interfaces';
 import QuestionFrame from '../question-frame/QuestionFrame';
 
-export default function Questions(props:{questions:Array<IQuestion>, updateQAInSimulation:Function, currentQuestionIdx:number, changeQuestion:Function}): ReactElement {
+export default function Questions(props:{questions:Array<IQuestion>, updateQAInSimulation:Function, currentQuestionIdx:number, changeQuestion:Function, goToResume:Function}): ReactElement {
   function initAnsweredQuestion():Array<IQuestionAnswered> {
     return props.questions.map(() => {
       return {selectedOptions: [], isFlagged: false};
@@ -64,14 +65,14 @@ export default function Questions(props:{questions:Array<IQuestion>, updateQAInS
       <Col className='align-self-center d-flex justify-content-end'>
         { (props.currentQuestionIdx < props.questions.length -1)?<Button variant="info" onClick={() => props.changeQuestion(props.currentQuestionIdx+1)} disabled={disableNext()}>
           <FontAwesomeIcon icon={faArrowRight as IconProp}/>
-        </Button>: <SendSimulation lastSelectedOptions={answeredQuestion[props.currentQuestionIdx].selectedOptions}/>}
+        </Button>: <SendSimulation lastSelectedOptions={answeredQuestion[props.currentQuestionIdx].selectedOptions} goToResume={props.goToResume}/>}
       </Col>
     </Row>);
 }
 
-function SendSimulation(props:{lastSelectedOptions:Array<string>}):ReactElement {
+function SendSimulation(props:{lastSelectedOptions:Array<string>, goToResume:Function}):ReactElement {
   return (
-    <Button variant='success' disabled={props.lastSelectedOptions.length === 0} onClick={() => console.log('termina simulazione')}>
+    <Button variant='success' disabled={props.lastSelectedOptions.length === 0} onClick={() => props.goToResume(PageName.ResumeSimulation)}>
       <FontAwesomeIcon icon={faPaperPlane as IconProp}/>
     </Button>
   );
