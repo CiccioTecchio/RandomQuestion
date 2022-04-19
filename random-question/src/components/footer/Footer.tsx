@@ -27,7 +27,7 @@ export default function Footer() {
   });
 
   return (
-    <Row className="text-center footer">
+    <Row className="text-center mt-5">
       <Col>
         <ul className="list-inline mb-0">{liList}</ul>
         <p>© Francesco Vicidomini</p>
