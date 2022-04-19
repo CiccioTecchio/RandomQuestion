@@ -10,5 +10,8 @@
   "error.json.is.not.array": "The JSON you attached doesn't contain a <b>list</b> of question; attach a <i>JSON</i> that respects <a href='#' target='_blank'>this structure</a>.",
   "error.syntax.of.json.question": "There is a syntax problem in the element with index {{i}}; the JSON must respect <a href='#' target='_blank'>this structure</a>.",
   "navigator.title": "Questions list",
-  "close": "Close"
+  "close": "Close",
+  "modal.timeout.title": "Time Expired",
+  "modal.timeout.msg": "Sorry, your time has expired, your test will still be evaluated based on the answers you gave, click <b>Next</b> to find out the outcome of the test.",
+  "modal.timeout.continue": "Continue"
 }

@@ -10,5 +10,8 @@
   "error.json.is.not.array": "Il <i>JSON</i> che hai allegato non contiene una <b>lista</b> di domande; allega un <i>JSON</i> che rispetti <a href='#' target='_blank'>questa stuttura</a>.",
   "error.syntax.of.json.question": "C'è un problama di sintassi nell'elemento con indice <b>{{i}}</b>; il <i>JSON</i> deve rispettare <a href='#' target='_blank'>questa stuttura</a>.",
   "navigator.title": "Lista domande",
-  "close": "Chiudi"
+  "close": "Chiudi",
+  "modal.timeout.title": "Tempo scaduto",
+  "modal.timeout.msg": "Mi dispiace, il tempo a tua disposizione è scaduto, la tua prova verrà comunque valutata in base alle risposte che hai dato, clicca su <b>Prosegui</b> per scoprire l'esito della prova.",
+  "modal.timeout.continue": "Prosegui"
 }
