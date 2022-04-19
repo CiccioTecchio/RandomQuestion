@@ -38,15 +38,9 @@ function ModalTimeout(props:{goToResume:Function}):ReactElement {
   );
 }
 
-export default function Simulation(props:{questions:Array<IQuestion>, timer:number, goToResumePage:Function}): ReactElement {
+export default function Simulation(props:{questions:Array<IQuestion>, qaList:Array<IQuestionAnswered>, timer:number, goToResumePage:Function, updateQaList:Function}): ReactElement {
   const convetTimerMinutesInSecond = (minutes:number) => minutes * 60;
-  function initAnsweredQuestion():Array<IQuestionAnswered> {
-    return props.questions.map(() => {
-      return {selectedOptions: [], isFlagged: false};
-    });
-  };
-  const [answeredQuestion, setAnsweredQuestion] = useState<{qaList:Array<IQuestionAnswered>}>({qaList: initAnsweredQuestion()});
-  const handleAnsweredQuestion = (value:{qaList:Array<IQuestionAnswered>}) => setAnsweredQuestion(value);
+  const handleAnsweredQuestion = (value:{qaList:Array<IQuestionAnswered>}) => props.updateQaList(value.qaList);
   const [currentQuestionIdx, setCurrentQuestionIdx] = useState<number>(0);
   const [currentTimer, setTimer] = useState<number>(convetTimerMinutesInSecond(props.timer));
 
@@ -67,8 +61,8 @@ export default function Simulation(props:{questions:Array<IQuestion>, timer:numb
   return (
     <>
       {currentTimer === 0 && (<ModalTimeout goToResume={props.goToResumePage}/>)}
-      <QuestionNavigator questionAnswered={answeredQuestion.qaList} currentQuestionIdx={currentQuestionIdx} changeQuestion={handleChangeQuestion}/>
-      <Questions questions={props.questions} updateQAInSimulation={handleAnsweredQuestion} currentQuestionIdx={currentQuestionIdx} changeQuestion={handleChangeQuestion} goToResume={props.goToResumePage}/>
+      <QuestionNavigator questionAnswered={props.qaList} currentQuestionIdx={currentQuestionIdx} changeQuestion={handleChangeQuestion}/>
+      <Questions questions={props.questions} qaList={props.qaList} updateQAInSimulation={handleAnsweredQuestion} currentQuestionIdx={currentQuestionIdx} changeQuestion={handleChangeQuestion} goToResume={props.goToResumePage}/>
       <Timer minutes={Math.floor(currentTimer/60)} seconds={currentTimer%60}/>
     </>
   );
