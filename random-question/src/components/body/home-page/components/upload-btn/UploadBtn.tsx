@@ -33,7 +33,7 @@ function ModalWrongFile(props:{showModal:boolean, msgAlert:string, onChangeShow:
         </Alert>
       </Modal.Body>
       <Modal.Footer>
-        <Button variant='secondary' onClick={handleClose}>Close</Button>
+        <Button variant='secondary' onClick={handleClose}>{t('close')}</Button>
       </Modal.Footer>
     </Modal>
   );
