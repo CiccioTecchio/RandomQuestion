@@ -32,9 +32,8 @@ export default function QuestionNavigator(props:{questionAnswered:Array<IQuestio
     return colorVariant;
   };
 
-  function isDisabledBtn(qList:Array<IQuestionAnswered>, i:number, currentQuestionIdx:number):boolean {
-    const idx = qList.findIndex((q:IQuestionAnswered) => q.selectedOptions.length === 0);
-    return (idx < i)?true:false;
+  function isDisabledBtn(question:IQuestionAnswered):boolean {
+    return (question.selectedOptions.length === 0)?true:false;
   }
 
   return (
@@ -47,7 +46,7 @@ export default function QuestionNavigator(props:{questionAnswered:Array<IQuestio
             <Row>
               {props.questionAnswered.map((q:IQuestionAnswered, i:number) => (
                 <BtnQuestion key={`q-${i}`} variant={chooseColorBtn(q, i, props.currentQuestionIdx)} idx={i+1}
-                  isDisabled = {isDisabledBtn(props.questionAnswered, i, props.currentQuestionIdx)}
+                  isDisabled = {isDisabledBtn(props.questionAnswered[i])}
                   goToQuestion = {props.changeQuestion} />
               ))}
             </Row>
