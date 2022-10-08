@@ -13,7 +13,7 @@ enum VariantBtn{
   // eslint-disable-next-line no-unused-vars
   Flagged = 'warning',
   // eslint-disable-next-line no-unused-vars
-  SelectedAnswer = 'success'
+  SelectedAnswer = 'info'
 }
 
 // TODO implementare gestione della domanda flagged
